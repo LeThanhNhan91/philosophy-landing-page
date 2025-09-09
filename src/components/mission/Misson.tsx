@@ -1,6 +1,7 @@
 "use client";
 import React, { useRef, useState, useEffect, FC } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import usePodcastDucking from "./intro/usePodcastDucking";
 
 // --- TYPE DEFINITIONS ---
 interface MissionPageProps {
@@ -489,7 +490,8 @@ const PodcastPlayer: FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
   const [currentTime, setCurrentTime] = useState<number>(0);
-  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null) as React.RefObject<HTMLAudioElement>;
+  usePodcastDucking(audioRef);
   const handlePlayPause = () => {
     if (isPlaying) {
       audioRef.current?.pause();

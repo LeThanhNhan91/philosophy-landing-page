@@ -70,7 +70,7 @@ export const eventsData: EventData[] = [
         year: "2023",
         title: "Đình công ngành ô tô Mỹ",
         mainQuote: "Record profits mean record contracts.",
-        imageUrl: "https://images.unsplash.com/photo-1593113646773-ae62c1c89a0e?q=80&w=1740&auto.format&fit=crop",
+        imageUrl: "/podcast/dinhcongdetail.jpeg",
         description: {
             paragraph1: "Cuộc đình công của United Auto Workers (UAW) năm 2023 là một trong những cuộc đình công lớn nhất trong lịch sử ngành công nghiệp ô tô Mỹ, nhắm vào ba nhà sản xuất lớn là Ford, General Motors và Stellantis. Công nhân yêu cầu tăng lương, cải thiện phúc lợi và đảm bảo việc làm trong bối cảnh ngành công nghiệp chuyển đổi sang xe điện.",
             paragraph2: "Cuộc đình công thể hiện sức mạnh của lao động có tổ chức và nêu bật những lo ngại về sự công bằng kinh tế khi các tập đoàn đạt lợi nhuận kỷ lục.",
