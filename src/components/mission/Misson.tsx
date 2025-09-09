@@ -544,7 +544,7 @@ const PodcastPlayer: FC = () => {
             className="w-28 h-28 md:w-36 md:h-36 bg-cover bg-center rounded-full"
             style={{
               backgroundImage:
-                "url('https://placehold.co/150x150/CD5C5C/FFFFFF?text=Podcast&font=serif')",
+                "url('/co.jpg')",
             }}
           >
             {" "}
