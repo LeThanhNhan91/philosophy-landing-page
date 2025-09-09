@@ -1,48 +1,83 @@
 "use client";
-import React, { useRef, createContext, useContext, ReactNode, FC } from "react";
+import React, {
+  createContext,
+  useContext,
+  useRef,
+  useState,
+  useEffect,
+  ReactNode,
+  FC,
+} from "react";
 
-// Định nghĩa kiểu cho giá trị của context
 interface AudioContextType {
-    playMusic: () => void;
+  isMusicPlaying: boolean;
+  playMusic: () => void;
+  toggleMusic: () => void;
 }
 
-// Tạo Context với kiểu đã định nghĩa
 const AudioContext = createContext<AudioContextType | null>(null);
 
-// Định nghĩa kiểu cho props của Provider
+export const useAudio = (): AudioContextType => {
+  const context = useContext(AudioContext);
+  if (!context) throw new Error("useAudio must be used within an AudioProvider");
+  return context;
+};
+
 interface AudioProviderProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
-// Tạo Provider để bao bọc ứng dụng, cung cấp logic âm thanh
 export const AudioProvider: FC<AudioProviderProps> = ({ children }) => {
-    const audioRef = useRef<HTMLAudioElement | null>(null);
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const [isMusicPlaying, setIsMusicPlaying] = useState<boolean>(false);
 
-    // Hàm để bật nhạc
-    const playMusic = () => {
-        if (audioRef.current) {
-            // Trình duyệt có thể chặn tự động phát, cần bắt lỗi
-            audioRef.current.play().catch(error => {
-                console.error("Lỗi khi bật nhạc:", error);
-            });
-        }
-    };
-
-    // Cung cấp hàm playMusic cho các component con
-    return (
-        <AudioContext.Provider value={{ playMusic }}>
-            <audio ref={audioRef} src="/podcast/music.mp3" loop />
-            {children}
-        </AudioContext.Provider>
-    );
-};
-
-// Custom hook để sử dụng context dễ dàng hơn, với kiểm tra null
-export const useAudio = (): AudioContextType => {
-    const context = useContext(AudioContext);
-    if (!context) {
-        throw new Error("useAudio must be used within an AudioProvider");
+  // Khôi phục trạng thái phát từ localStorage
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const pref = localStorage.getItem("music-pref");
+    if (pref === "on") {
+      audioRef.current
+        ?.play()
+        .then(() => setIsMusicPlaying(true))
+        .catch(() => {
+          // Trình duyệt chặn autoplay: chờ người dùng click nút ở header
+          setIsMusicPlaying(false);
+        });
     }
-    return context;
-};
+  }, []);
 
+  const playMusic = () => {
+    audioRef.current
+      ?.play()
+      .then(() => {
+        setIsMusicPlaying(true);
+        if (typeof window !== "undefined") localStorage.setItem("music-pref", "on");
+      })
+      .catch((error) => console.error("Audio play failed:", error));
+  };
+
+  const toggleMusic = () => {
+    if (isMusicPlaying) {
+      audioRef.current?.pause();
+      setIsMusicPlaying(false);
+      if (typeof window !== "undefined") localStorage.setItem("music-pref", "off");
+    } else {
+      audioRef.current
+        ?.play()
+        .then(() => {
+          setIsMusicPlaying(true);
+          if (typeof window !== "undefined") localStorage.setItem("music-pref", "on");
+        })
+        .catch((error) => console.error("Audio play failed:", error));
+    }
+  };
+
+  const contextValue: AudioContextType = { isMusicPlaying, playMusic, toggleMusic };
+
+  return (
+    <AudioContext.Provider value={contextValue}>
+      <audio ref={audioRef} src="/podcast/music.mp3" loop />
+      {children}
+    </AudioContext.Provider>
+  );
+};

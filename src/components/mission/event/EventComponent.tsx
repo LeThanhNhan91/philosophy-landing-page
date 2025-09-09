@@ -13,8 +13,10 @@ interface EventComponentProps {
 const EventComponent: FC<EventComponentProps> = ({ event, onBack }) => {
     return (
         <div className="bg-[#2a2726] text-[#e8e2d9] min-h-screen font-serif p-4 sm:p-8 md:p-12">
-             <style>{`@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400&display=swap'); body { background-color: #2a2726; }`}</style>
-            
+              <style>{`
+                @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+                body { background-color: #2a2726; font-family: 'Noto Sans', sans-serif; }
+            `}</style>
             <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
@@ -23,7 +25,7 @@ const EventComponent: FC<EventComponentProps> = ({ event, onBack }) => {
                 {/* Nút Back */}
                 <button 
                     onClick={onBack} 
-                    className="absolute top-4 left-4 text-sm uppercase tracking-widest hover:text-[#c5b8a5] transition-colors z-10"
+                    className="absolute top-18 left-4 text-sm uppercase tracking-widest hover:text-[#c5b8a5] transition-colors z-10"
                 >
                     &larr; Back to Mission
                 </button>
