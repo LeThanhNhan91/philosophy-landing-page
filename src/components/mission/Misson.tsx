@@ -1186,10 +1186,6 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
               {" "}
               Nội dung dựa trên Giáo trình Chủ nghĩa xã hội khoa học (2021).{" "}
             </p>
-            <p className="text-stone-600 text-xs mt-2">
-              {" "}
-              Thiết kế và phát triển bởi Trí tuệ nhân tạo.{" "}
-            </p>
           </motion.footer>
         </div>
       </main>
