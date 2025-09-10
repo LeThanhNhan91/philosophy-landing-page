@@ -48,7 +48,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ onNavigate }) => {
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        Không có nhạc
+                        Không nhạc
                     </motion.button>
                 </div>
             </motion.div>
