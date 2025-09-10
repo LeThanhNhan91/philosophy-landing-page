@@ -1,10 +1,9 @@
-// Định nghĩa kiểu dữ liệu cho một sự kiện
 export interface EventData {
     id: string;
     year: string;
     title: string;
     mainQuote: string;
-    imageUrl: string; // Hình ảnh chính hiển thị lớn
+    imageUrl: string;
     description: {
         paragraph1: string;
         paragraph2: string;
@@ -85,5 +84,77 @@ export const eventsData: EventData[] = [
             text: "Sự đoàn kết là sức mạnh... Khi không có sự hợp tác và đoàn kết, chúng ta yếu đuối.",
             author: "Mattie Stepanek",
         },
-    }
+    },
+     {
+    id: "binh-dan-hoc-vu",
+    year: "1945",
+    title: 'Các lớp học "Bình dân học vụ" sau Cách mạng Tháng Tám',
+    mainQuote: "Diệt giặc dốt",
+    imageUrl: "/podcast/binhdan.jpg",
+    description: {
+      paragraph1:
+        'Ngay sau Cách mạng Tháng Tám 1945, phong trào "Bình dân học vụ" được phát động trên cả nước nhằm xoá nạn mù chữ. Hàng vạn lớp học buổi tối mở ngay tại đình làng, bến phà, kho thóc… với giáo viên là cán bộ, chiến sĩ, học sinh và các trí thức tình nguyện.',
+      paragraph2:
+        "Chiến dịch nhanh chóng lan rộng tới tận thôn bản vùng sâu vùng xa, tạo cơ hội học chữ cho mọi tầng lớp nhân dân và đặt nền móng cho việc phổ cập giáo dục sau này.",
+    },
+    gallery: {
+      image1: "/podcast/class-1.jpg",
+      caption1: "Lớp học dã chiến: bảng gỗ, đèn dầu, ghế tre nhưng đầy quyết tâm.",
+      image2: "/podcast/class-2.jpg",
+      caption2: "Cán bộ – thanh niên tình nguyện đứng lớp, dạy chữ và tính toán cơ bản.",
+    },
+    finalQuote: {
+      text: "Một dân tộc dốt là một dân tộc yếu.",
+      author: "Hồ Chí Minh",
+    },
+  },
+  {
+    id: "community-library",
+    year: "1960–1980",
+    title:
+      "Xây dựng các nhà văn hóa, thư viện cộng đồng góp phần nâng cao đời sống tinh thần cho người lao động",
+    mainQuote: "Văn hoá đến với mọi người",
+    imageUrl: "/podcast/community.jpg",
+    description: {
+      paragraph1:
+        "Trong giai đoạn xây dựng đất nước, hệ thống nhà văn hoá, câu lạc bộ, thư viện cộng đồng được hình thành tại nhiều địa phương. Đây là không gian đọc sách, xem phim, sinh hoạt văn nghệ, tuyên truyền chủ trương chính sách, nâng cao đời sống tinh thần.",
+      paragraph2:
+        "Những hoạt động này không chỉ lan toả tri thức mà còn gắn kết cộng đồng, khơi dậy tinh thần học tập suốt đời và tham gia phong trào thi đua lao động sản xuất.",
+    },
+    gallery: {
+      image1: "/podcast/library-1.jpg",
+      caption1: "Góc đọc sách, mượn sách miễn phí phục vụ công nhân và thanh thiếu niên.",
+      image2: "/podcast/library-2.jpg",
+      caption2:
+        "Nhà văn hoá – nơi tổ chức biểu diễn, triển lãm và sinh hoạt tập thể định kỳ.",
+    },
+    finalQuote: {
+      text: "Tri thức nuôi dưỡng cộng đồng, văn hoá kết nối con người.",
+      author: "—",
+    },
+  },
+  {
+    id: "propaganda-art",
+    year: "1945–1986",
+    title:
+      "Nghệ thuật cổ động được sử dụng để truyền bá lý tưởng và xây dựng tinh thần tập thể",
+    mainQuote: "Vì Tổ quốc – Vì nhân dân",
+    imageUrl: "/podcast/propaganda.jpeg",
+    description: {
+      paragraph1:
+        "Poster, tranh cổ động và bích báo trở thành phương tiện trực quan sinh động để tuyên truyền: từ chống giặc đói, giặc dốt, giặc ngoại xâm cho tới các phong trào thi đua lao động, sản xuất.",
+      paragraph2:
+        "Với màu sắc mạnh, hình khối giản lược và thông điệp ngắn gọn, nghệ thuật cổ động dễ tiếp cận đại chúng, khơi dậy lòng yêu nước, tinh thần trách nhiệm và ý chí lạc quan.",
+    },
+    gallery: {
+      image1: "/podcast/poster-1.jpg",
+      caption1: "Áp phích vận động sản xuất – học tập, tinh thần tươi mới, quả quyết.",
+      image2: "/podcast/poster-2.jpg",
+      caption2: "Tranh cổ động kêu gọi đoàn kết, quyết tâm vượt khó.",
+    },
+    finalQuote: {
+      text: "Nghệ thuật là vũ khí tinh thần sắc bén phục vụ nhân dân.",
+      author: "Khẩu hiệu thời kỳ",
+    },
+  },
 ];

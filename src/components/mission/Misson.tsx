@@ -2,6 +2,8 @@
 import React, { useRef, useState, useEffect, FC } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import usePodcastDucking from "./intro/usePodcastDucking";
+import AboutUs from "./aboutUs/AboutUs";
+import FlippingCard from "./flipping-card/FlippingCard";
 
 // --- TYPE DEFINITIONS ---
 interface MissionPageProps {
@@ -924,105 +926,119 @@ const QuizSection: FC<{ questions: QuizQuestion[] }> = ({ questions }) => {
 const PoliticalSection: FC<{
   section: SectionData;
   onNavigateToEvent: (id: string) => void;
-}> = ({ section, onNavigateToEvent }) => (
-  <motion.section
-    id={section.id}
-    className="py-16"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.2 }}
-    variants={containerVariants}
-  >
-    {" "}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      {" "}
-      <motion.div variants={itemVariants}>
-        {" "}
-        <h3 className="text-2xl font-semibold text-amber-100/90 tracking-wide">
-          {" "}
-          {section.subtitle}{" "}
-        </h3>{" "}
-        <p className="mt-2 text-stone-400 italic mb-8">{section.summary}</p>{" "}
-        <div className="space-y-6 border-l-2 border-amber-300/30 pl-6">
-          {" "}
-          {section.content.map((item, index) => (
-            <div key={index}>
-              {" "}
-              <h4 className="font-bold text-lg text-amber-200/95">
-                {" "}
-                {item.title}{" "}
-              </h4>{" "}
-              <p className="text-stone-300 leading-relaxed">
-                {" "}
-                {item.description}{" "}
-              </p>{" "}
-            </div>
-          ))}{" "}
-        </div>{" "}
-      </motion.div>{" "}
-      <motion.div variants={itemVariants}>
-        {" "}
-        {section.carouselItems && (
-          <ImageCarousel
-            items={section.carouselItems}
-            onImageClick={onNavigateToEvent}
-          />
-        )}{" "}
-      </motion.div>{" "}
-    </div>{" "}
-  </motion.section>
-);
+}> = ({ section, onNavigateToEvent }) => {
+  return (
+    <motion.section
+      id={section.id}
+      className="py-16"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <motion.div variants={itemVariants}>
+          <h2 className="h-serif text-3xl md:text-4xl font-bold text-[#c5b8a5] mb-4">
+            {section.title}
+          </h2>
+          <p className="text-[#e8e2d9]/75 mb-6">{section.subtitle}</p>
+          <ul className="space-y-4">
+            {section.content.map((c, idx) => (
+              <li key={idx} className="pl-4 border-l-2 border-amber-400/40">
+                <div className="font-semibold text-amber-300">{c.title}</div>
+                <div className="text-[#e8e2d9]/75">{c.description}</div>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="relative group not-prose">
+          {section.carouselItems && (
+            <>
+              <ImageCarousel
+                items={section.carouselItems}
+                onImageClick={onNavigateToEvent}
+              />
+
+              {/* Tooltip overlay */}
+              <div
+                className="
+                  pointer-events-none absolute inset-0 z-20
+                  flex items-end justify-center pb-3
+                  opacity-0 group-hover:opacity-100
+                  transition-opacity duration-300
+                "
+              >
+                <div className="rounded-full bg-black/70 backdrop-blur-sm text-amber-300 text-xs md:text-sm px-3 py-2 shadow-lg">
+                  Nhấn vào để xem thêm thông tin
+                </div>
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+};
+
 const CulturalSection: FC<{
   section: SectionData;
   onNavigateToEvent: (id: string) => void;
-}> = ({ section, onNavigateToEvent }) => (
-  <motion.section
-    id={section.id}
-    className="py-16"
-    initial="hidden"
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.2 }}
-    variants={containerVariants}
-  >
-    {" "}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-      {" "}
-      <motion.div variants={itemVariants} className="lg:order-last">
-        {" "}
-        <h3 className="text-2xl font-semibold text-amber-100/90 tracking-wide">
-          {" "}
-          {section.subtitle}{" "}
-        </h3>{" "}
-        <p className="mt-2 text-stone-400 italic mb-8">{section.summary}</p>{" "}
-        <div className="space-y-6 border-l-2 border-amber-300/30 pl-6">
-          {" "}
-          {section.content.map((item, index) => (
-            <div key={index}>
-              {" "}
-              <h4 className="font-bold text-lg text-amber-200/95">
-                {" "}
-                {item.title}{" "}
-              </h4>{" "}
-              <p className="text-stone-300 leading-relaxed">
-                {" "}
-                {item.description}{" "}
-              </p>{" "}
-            </div>
-          ))}{" "}
-        </div>{" "}
-      </motion.div>{" "}
-      <motion.div variants={itemVariants} className="lg:order-first">
-        {" "}
-        {section.carouselItems && (
-          <ImageCarousel
-            items={section.carouselItems}
-            onImageClick={onNavigateToEvent}
-          />
-        )}{" "}
-      </motion.div>{" "}
-    </div>{" "}
-  </motion.section>
-);
+}> = ({ section, onNavigateToEvent }) => {
+  return (
+    <motion.section
+      id={section.id}
+      className="py-16"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={containerVariants}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <motion.div variants={itemVariants} className="lg:order-last">
+          <h2 className="h-serif text-3xl md:text-4xl font-bold text-[#c5b8a5] mb-4">
+            {section.title}
+          </h2>
+          <p className="text-[#e8e2d9]/75 mb-6">{section.subtitle}</p>
+          <ul className="space-y-4">
+            {section.content.map((c, idx) => (
+              <li key={idx} className="pl-4 border-l-2 border-amber-400/40">
+                <div className="font-semibold text-amber-300">{c.title}</div>
+                <div className="text-[#e8e2d9]/75">{c.description}</div>
+              </li>
+            ))}
+          </ul>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="relative group lg:order-first not-prose">
+          {section.carouselItems && (
+            <>
+              <ImageCarousel
+                items={section.carouselItems}
+                onImageClick={onNavigateToEvent}
+              />
+
+              {/* Tooltip overlay */}
+              <div
+                className="
+                  pointer-events-none absolute inset-0 z-20
+                  flex items-end justify-center pb-3
+                  opacity-0 group-hover:opacity-100
+                  transition-opacity duration-300
+                "
+              >
+                <div className="rounded-full bg-black/70 backdrop-blur-sm text-amber-300 text-xs md:text-sm px-3 py-2 shadow-lg text-center">
+                  Nhấn vào để xem thêm thông tin
+                </div>
+              </div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+};
+
 const headerLines = ["Sứ mệnh Lịch sử của", "Giai cấp Công nhân"];
 
 const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
@@ -1149,6 +1165,8 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
             </motion.div>
           </header>
           <div className="space-y-10 max-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <AboutUs/>
+            <FlippingCard/>
             <PodcastPlayer />
             <ModernWorkerSection data={introSectionData} />
             <div className="text-center">
