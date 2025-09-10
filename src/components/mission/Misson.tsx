@@ -2,6 +2,7 @@
 import React, { useRef, useState, useEffect, FC } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import usePodcastDucking from "./intro/usePodcastDucking";
+import AboutUs from "./aboutUs/AboutUs";
 
 // --- TYPE DEFINITIONS ---
 interface MissionPageProps {
@@ -1149,6 +1150,7 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
             </motion.div>
           </header>
           <div className="space-y-10 max-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <AboutUs/>
             <PodcastPlayer />
             <ModernWorkerSection data={introSectionData} />
             <div className="text-center">

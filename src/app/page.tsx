@@ -49,7 +49,7 @@ export default function Home() {
               const target = e.target as HTMLImageElement;
               target.style.display = "none";
               const span = document.createElement("span");
-              span.textContent = "LOGO";
+              span.textContent = "GROUP 2";
               span.className = "text-amber-300 tracking-widest font-semibold";
               target.parentElement?.appendChild(span);
             }}
