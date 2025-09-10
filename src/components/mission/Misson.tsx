@@ -3,6 +3,7 @@ import React, { useRef, useState, useEffect, FC } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import usePodcastDucking from "./intro/usePodcastDucking";
 import AboutUs from "./aboutUs/AboutUs";
+import FlippingCard from "./flipping-card/FlippingCard";
 
 // --- TYPE DEFINITIONS ---
 interface MissionPageProps {
@@ -1151,6 +1152,7 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
           </header>
           <div className="space-y-10 max-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <AboutUs/>
+            <FlippingCard/>
             <PodcastPlayer />
             <ModernWorkerSection data={introSectionData} />
             <div className="text-center">
