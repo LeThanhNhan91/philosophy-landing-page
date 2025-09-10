@@ -42,7 +42,7 @@ export default function Home() {
         {/* Logo */}
         <div className="flex items-center gap-2">
           <img
-            src="/podcast/logo.svg"
+            src="/co.jpg"
             alt="Website Logo"
             className="h-8 w-auto"
             onError={(e) => {
