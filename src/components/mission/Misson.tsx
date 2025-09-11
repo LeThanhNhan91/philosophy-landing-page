@@ -2,7 +2,6 @@
 import React, { useRef, useState, useEffect, FC } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import usePodcastDucking from "./intro/usePodcastDucking";
-import AboutUs from "./aboutUs/AboutUs";
 import FlippingCard from "./flipping-card/FlippingCard";
 
 // --- TYPE DEFINITIONS ---
@@ -441,14 +440,19 @@ const ImageCarousel: FC<{
   const paginate = (newDirection: number) => {
     setPage((prev) => [prev[0] + newDirection, newDirection]);
   };
+
   useEffect(() => {
-    const autoplay = setInterval(() => {
-      paginate(1);
-    }, 5000);
+    const autoplay = setInterval(() => paginate(1), 5000);
     return () => clearInterval(autoplay);
   }, []);
+
   return (
-    <div className="relative aspect-video w-full h-full flex items-center justify-center rounded-lg shadow-2xl overflow-hidden border-4 border-stone-700/50 bg-stone-900">
+    <div
+      className="relative aspect-video w-full h-full flex items-center justify-center rounded-lg shadow-2xl overflow-hidden border-4 border-stone-700/50 bg-stone-900 cursor-pointer"
+      onClick={() => onImageClick(items[imageIndex].id)}
+      role="button"
+      aria-label="Xem thêm thông tin"
+    >
       <AnimatePresence initial={false} custom={direction}>
         <motion.img
           key={page}
@@ -462,15 +466,16 @@ const ImageCarousel: FC<{
             x: { type: "spring", stiffness: 300, damping: 30 },
             opacity: { duration: 0.2 },
           }}
-          className="absolute w-full h-full object-cover grayscale-[30%] contrast-125 cursor-pointer"
-          onClick={() => onImageClick(items[imageIndex].id)}
+          className="absolute w-full h-full object-cover grayscale-[30%] contrast-125 pointer-events-none" /* <- không bắt chuột */
           onError={(e) => {
             (e.target as HTMLImageElement).src =
               "https://placehold.co/800x450/2a2a2a/999999?text=Image+Error";
           }}
         />
       </AnimatePresence>
-      <div className="absolute bottom-0 left-0 right-0 p-4 z-10 bg-gradient-to-t from-black/80 to-transparent">
+
+      {/* Caption: không bắt chuột để click xuyên xuống container */}
+      <div className="absolute bottom-0 left-0 right-0 p-4 z-10 bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
         <AnimatePresence mode="wait">
           <motion.p
             key={items[imageIndex].caption}
@@ -480,14 +485,14 @@ const ImageCarousel: FC<{
             transition={{ duration: 0.3 }}
             className="text-white text-center text-sm"
           >
-            {" "}
-            {items[imageIndex].caption}{" "}
+            {items[imageIndex].caption}
           </motion.p>
         </AnimatePresence>
       </div>
     </div>
   );
 };
+
 const PodcastPlayer: FC = () => {
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
@@ -637,7 +642,7 @@ const ModernWorkerSection: FC<{ data: IntroSectionData }> = ({ data }) => {
         </h2>{" "}
         <p className="text-lg text-stone-400">{data.subtitle}</p>{" "}
       </motion.div>{" "}
-      <motion.div variants={itemVariants} className="flex justify-center mb-12">
+      <motion.div variants={itemVariants} className="flex justify-center mb-12 relative z-10">
         {" "}
         <div className="bg-stone-800/50 border border-stone-700 rounded-full p-1.5 flex gap-2">
           {" "}
@@ -743,184 +748,187 @@ const EconomicSection: FC<{ section: SectionData }> = ({ section }) => {
     </motion.section>
   );
 };
+
 const QuizSection: FC<{ questions: QuizQuestion[] }> = ({ questions }) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(
-    null
-  );
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [selectedAnswerIndex, setSelectedAnswerIndex] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [score, setScore] = useState<number>(0);
-  const [showResult, setShowResult] = useState<boolean>(false);
-  const handleAnswerSelect = (index: number) => {
-    if (selectedAnswerIndex !== null) return;
+  const [hasAnswered, setHasAnswered] = useState(false);
+  const [score, setScore] = useState(0);
+  const [showResult, setShowResult] = useState(false);
+
+  const currentQuestion = questions[currentQuestionIndex];
+  const correctIndex = currentQuestion.correctAnswerIndex;
+
+  const handleSelect = (index: number) => {
+    if (hasAnswered) return;
+    const correct = index === correctIndex;
     setSelectedAnswerIndex(index);
-    const correct =
-      index === questions[currentQuestionIndex].correctAnswerIndex;
     setIsCorrect(correct);
-    if (correct) {
-      setScore((prev) => prev + 1);
-    }
+    setHasAnswered(true);
   };
+
   const handleNext = () => {
+    if (hasAnswered && isCorrect) setScore((s) => s + 1);
+
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex((prev) => prev + 1);
+      setCurrentQuestionIndex((i) => i + 1);
       setSelectedAnswerIndex(null);
       setIsCorrect(null);
+      setHasAnswered(false);
+      window.getSelection?.()?.removeAllRanges?.();
     } else {
       setShowResult(true);
     }
   };
+
   const handleRestart = () => {
     setCurrentQuestionIndex(0);
     setSelectedAnswerIndex(null);
     setIsCorrect(null);
+    setHasAnswered(false);
     setScore(0);
     setShowResult(false);
   };
-  if (showResult) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="text-center bg-stone-800/50 border border-stone-700 rounded-2xl p-8"
-      >
-        {" "}
-        <h3 className="text-3xl font-bold text-amber-200 mb-4">
-          {" "}
-          Hoàn thành!{" "}
-        </h3>{" "}
-        <p className="text-lg text-stone-300 mb-6">
-          {" "}
-          Bạn đã trả lời đúng{" "}
-          <span className="font-bold text-amber-400 text-xl">
-            {score}
-          </span> /{" "}
-          <span className="font-bold text-xl">{questions.length}</span> câu.{" "}
-        </p>{" "}
-        <button
-          onClick={handleRestart}
-          className="bg-amber-400 text-stone-900 font-bold py-3 px-8 rounded-full hover:bg-amber-300 transition-all duration-300 transform hover:scale-105"
-        >
-          {" "}
-          Làm lại{" "}
-        </button>{" "}
-      </motion.div>
-    );
-  }
-  const currentQuestion = questions[currentQuestionIndex];
+
   return (
-    <motion.div
+    <motion.section
+      id="quiz"
+      className="relative isolate z-30 py-16 pointer-events-auto"
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, amount: 0.3 }}
       variants={containerVariants}
     >
-      {" "}
-      <div className="text-center mb-12">
-        {" "}
-        <h2
-          className="text-4xl md:text-5xl font-bold text-amber-100/95 mb-2"
-          style={{ fontFamily: "'Playfair Display', serif" }}
+      {showResult ? (
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="text-center bg-stone-800/60 border border-stone-700 rounded-2xl p-8"
         >
-          {" "}
-          Kiểm tra kiến thức{" "}
-        </h2>{" "}
-        <p className="text-lg text-stone-400">
-          {" "}
-          Cùng ôn lại những nội dung chính đã tìm hiểu.{" "}
-        </p>{" "}
-      </div>{" "}
-      <div className="bg-stone-800/50 border border-stone-700 rounded-2xl p-8 min-h-[30rem] flex flex-col justify-between">
-        {" "}
-        <div>
-          {" "}
-          <p className="text-stone-400 mb-2">
-            {" "}
-            Câu hỏi {currentQuestionIndex + 1}/{questions.length}{" "}
-          </p>{" "}
-          <AnimatePresence mode="wait">
-            {" "}
-            <motion.h4
-              key={currentQuestionIndex}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="text-2xl font-semibold text-stone-100 mb-8"
-            >
-              {" "}
-              {currentQuestion.question}{" "}
-            </motion.h4>{" "}
-          </AnimatePresence>{" "}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {" "}
-            {currentQuestion.options.map((option, index) => {
-              const isSelected = selectedAnswerIndex === index;
-              const isCorrectAnswer =
-                index === currentQuestion.correctAnswerIndex;
-              let buttonClass = "bg-stone-700/50 hover:bg-stone-700";
-              if (selectedAnswerIndex !== null) {
-                if (isSelected) {
-                  buttonClass = isCorrect ? "bg-green-500/80" : "bg-red-500/80";
-                } else if (isCorrectAnswer) {
-                  buttonClass = "bg-green-500/80";
-                } else {
-                  buttonClass = "bg-stone-700/50 opacity-50";
-                }
-              }
-              return (
-                <button
-                  key={index}
-                  onClick={() => handleAnswerSelect(index)}
-                  disabled={selectedAnswerIndex !== null}
-                  className={`p-4 rounded-lg text-left transition-all duration-300 ${buttonClass}`}
+          <h3 className="text-3xl font-bold text-amber-200 mb-4">Hoàn thành!</h3>
+          <p className="text-lg text-stone-300 mb-6">
+            Bạn đã trả lời đúng{" "}
+            <span className="font-bold text-amber-400 text-xl">{score}</span> /{" "}
+            <span className="font-bold text-xl">{questions.length}</span> câu.
+          </p>
+          <button
+            type="button"
+            onClick={handleRestart}
+            className="bg-amber-400 text-stone-900 font-bold py-3 px-8 rounded-full hover:bg-amber-300 transition-all duration-300 transform hover:scale-105"
+            style={{ touchAction: "manipulation" }}
+          >
+            Làm lại
+          </button>
+        </motion.div>
+      ) : (
+        <motion.div variants={itemVariants}>
+          <div className="text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-amber-100/95 mb-2">
+              Kiểm tra kiến thức
+            </h2>
+            <p className="text-lg text-stone-400">Chọn đáp án và xem giải thích.</p>
+          </div>
+
+          {/* Card */}
+          <div className="relative z-10 bg-stone-800/60 border border-stone-700 rounded-2xl p-8 min-h-[30rem] flex flex-col justify-between pointer-events-auto">
+            <div>
+              <p className="text-stone-400 mb-2">
+                Câu hỏi {currentQuestionIndex + 1}/{questions.length}
+              </p>
+
+              <AnimatePresence mode="wait">
+                <motion.h4
+                  key={currentQuestionIndex}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="text-2xl font-semibold text-stone-100 mb-8"
                 >
-                  {" "}
-                  {option}{" "}
-                </button>
-              );
-            })}{" "}
-          </div>{" "}
-        </div>{" "}
-        <AnimatePresence>
-          {" "}
-          {selectedAnswerIndex !== null && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="mt-8 pt-6 border-t border-stone-700 flex flex-col md:flex-row items-center justify-between gap-4"
-            >
-              {" "}
-              <div>
-                {" "}
-                <p
-                  className={`flex items-center gap-2 font-bold ${
-                    isCorrect ? "text-green-400" : "text-red-400"
-                  }`}
-                >
-                  {" "}
-                  {isCorrect ? <CheckCircleIcon /> : <XCircleIcon />}{" "}
-                  {isCorrect ? "Chính xác!" : "Chưa chính xác."}{" "}
-                </p>{" "}
-                <p className="text-stone-400 text-sm mt-1">
-                  {" "}
-                  {currentQuestion.explanation}{" "}
-                </p>{" "}
-              </div>{" "}
-              <button
-                onClick={handleNext}
-                className="bg-amber-400 text-stone-900 font-bold py-3 px-8 rounded-full hover:bg-amber-300 transition-all duration-300 transform hover:scale-105 w-full md:w-auto flex-shrink-0"
+                  {currentQuestion.question}
+                </motion.h4>
+              </AnimatePresence>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {currentQuestion.options.map((option, index) => {
+                  const isSelected = selectedAnswerIndex === index;
+                  const isTheCorrect = index === correctIndex;
+
+                  // Xây dựng class theo trạng thái LOCK
+                  let cls =
+                    "p-4 rounded-lg text-left transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-amber-400 ";
+
+                  if (!hasAnswered) {
+                    cls += "bg-stone-700/60 hover:bg-stone-700 cursor-pointer";
+                  } else {
+                    // Đã chọn xong: lock & tô màu
+                    if (isSelected && isCorrect) {
+                      cls += "bg-green-500/80 text-stone-900 cursor-default";
+                    } else if (isSelected && !isCorrect) {
+                      cls += "bg-red-500/80 text-stone-50 cursor-default";
+                    } else if (!isSelected && !isCorrect && isTheCorrect) {
+                      // Hiển thị đáp án đúng khi người dùng chọn sai
+                      cls += "bg-green-500/70 text-stone-900 cursor-default";
+                    } else {
+                      cls += "bg-stone-700/40 cursor-default";
+                    }
+                  }
+
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      disabled={hasAnswered}
+                      onClick={() => handleSelect(index)}
+                      className={cls}
+                      style={{ touchAction: "manipulation" }}
+                      aria-pressed={isSelected}
+                    >
+                      {option}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Giải thích + Next */}
+            {hasAnswered && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mt-8 pt-6 border-t border-stone-700 flex flex-col md:flex-row items-center justify-between gap-4"
               >
-                {" "}
-                {currentQuestionIndex < questions.length - 1
-                  ? "Câu tiếp theo"
-                  : "Xem kết quả"}{" "}
-              </button>{" "}
-            </motion.div>
-          )}{" "}
-        </AnimatePresence>{" "}
-      </div>{" "}
-    </motion.div>
+                <div>
+                  <p
+                    className={`flex items-center gap-2 font-bold ${
+                      isCorrect ? "text-green-400" : "text-red-400"
+                    }`}
+                  >
+                    {isCorrect ? <CheckCircleIcon /> : <XCircleIcon />}
+                    {isCorrect ? "Chính xác!" : "Chưa chính xác."}
+                  </p>
+                  <p className="text-stone-400 text-sm mt-1">
+                    {currentQuestion.explanation}
+                  </p>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="bg-amber-400 text-stone-900 font-bold py-3 px-8 rounded-full hover:bg-amber-300 transition-all duration-300 transform hover:scale-105 w-full md:w-auto flex-shrink-0"
+                  style={{ touchAction: "manipulation" }}
+                >
+                  {currentQuestionIndex < questions.length - 1
+                    ? "Câu tiếp theo"
+                    : "Xem kết quả"}
+                </button>
+              </motion.div>
+            )}
+          </div>
+        </motion.div>
+      )}
+    </motion.section>
   );
 };
 const PoliticalSection: FC<{
@@ -1088,6 +1096,7 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
                 inset: 0,
                 background: "#111",
                 zIndex: 2,
+                pointerEvents: "none",
               }}
             />
             <div style={{ position: "relative", zIndex: 3 }}>
@@ -1165,7 +1174,7 @@ const MissionPage: FC<MissionPageProps> = ({ onNavigateToEvent }) => {
             </motion.div>
           </header>
           <div className="space-y-10 max-full mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <AboutUs/>
+            {/* <AboutUs/> */}
             <FlippingCard/>
             <PodcastPlayer />
             <ModernWorkerSection data={introSectionData} />
