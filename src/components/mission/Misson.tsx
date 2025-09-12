@@ -275,7 +275,7 @@ const missionSections: SectionData[] = [
       },
       {
         id: "cuba-revolution",
-        src: "/podcast/cuba.jpeg",
+        src: "/podcast/cachmang.jpg",
         caption:
           "Nhân dân Cuba tham gia xây dựng và bảo vệ chính quyền xã hội chủ nghĩa.",
       },
