@@ -263,19 +263,19 @@ const missionSections: SectionData[] = [
     carouselItems: [
       {
         id: "wall-street-2011",
-        src: "https://substackcdn.com/image/fetch/$s_!2No7!,w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2F42fd1280-5f6d-462c-a553-5eb37f517ddb_1400x788.jpeg",
+        src: "/podcast/nine.jpeg",
         caption:
           'Phong trào "Chiếm lấy Wall Street" (2011) phản kháng chống lại bất bình đẳng kinh tế.',
       },
       {
         id: "auto-worker-strike",
-        src: "/podcast/dinhcong.jpg",
+        src: "/podcast/dinhcongdetail.jpeg",
         caption:
           "Các cuộc đình công của công nhân ngành ô tô tại Mỹ đòi tăng lương và cải thiện điều kiện làm việc.",
       },
       {
         id: "cuba-revolution",
-        src: "/podcast/cachmang.jpg",
+        src: "/podcast/cuba.jpeg",
         caption:
           "Nhân dân Cuba tham gia xây dựng và bảo vệ chính quyền xã hội chủ nghĩa.",
       },

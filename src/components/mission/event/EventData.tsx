@@ -27,7 +27,7 @@ export const eventsData: EventData[] = [
         year: "2011",
         title: "Occupy Wall Street",
         mainQuote: "We are the 99%",
-        imageUrl: "/podcast/nine.webp",
+        imageUrl: "/podcast/wall.jpg",
         description: {
             paragraph1: "Phong trào \"Chiếm lấy Wall Street\" là một cuộc biểu tình phản kháng bắt đầu vào ngày 17 tháng 9 năm 2011, tại Công viên Zuccotti, quận tài chính của Thành phố New York. Những người biểu tình đã lên tiếng chống lại sự bất bình đẳng kinh tế và xã hội, lòng tham của các tập đoàn, và ảnh hưởng của tiền bạc đối với chính phủ.",
             paragraph2: "Khẩu hiệu \"Chúng tôi là 99%\" đề cập đến sự chênh lệch về thu nhập và tài sản ở Hoa Kỳ giữa 1% giàu nhất và phần còn lại của dân số. Phong trào nhanh chóng lan rộng ra các thành phố khác ở Hoa Kỳ và trên toàn thế giới.",
@@ -48,7 +48,7 @@ export const eventsData: EventData[] = [
         year: "1959",
         title: "Cách mạng Cuba",
         mainQuote: "Patria o Muerte, Venceremos!",
-        imageUrl: "/podcast/cuba.jpeg",
+        imageUrl: "/podcast/cachmang.jpg",
         description: {
             paragraph1: "Cách mạng Cuba là một cuộc nổi dậy vũ trang do Phong trào 26 tháng 7 của Fidel Castro lãnh đạo chống lại chế độ độc tài của Fulgencio Batista. Cuộc cách mạng bắt đầu vào tháng 7 năm 1953 và tiếp tục cho đến khi Batista bị lật đổ vào ngày 1 tháng 1 năm 1959.",
             paragraph2: "Thắng lợi của cách mạng đã thiết lập nên nhà nước xã hội chủ nghĩa đầu tiên ở Tây bán cầu, có ảnh hưởng sâu sắc đến chính trị khu vực và quan hệ quốc tế trong suốt thời kỳ Chiến tranh Lạnh.",
@@ -69,7 +69,7 @@ export const eventsData: EventData[] = [
         year: "2023",
         title: "Đình công ngành ô tô Mỹ",
         mainQuote: "Record profits mean record contracts.",
-        imageUrl: "/podcast/dinhcongdetail.jpeg",
+        imageUrl: "/podcast/dinhcong.jpg",
         description: {
             paragraph1: "Cuộc đình công của United Auto Workers (UAW) năm 2023 là một trong những cuộc đình công lớn nhất trong lịch sử ngành công nghiệp ô tô Mỹ, nhắm vào ba nhà sản xuất lớn là Ford, General Motors và Stellantis. Công nhân yêu cầu tăng lương, cải thiện phúc lợi và đảm bảo việc làm trong bối cảnh ngành công nghiệp chuyển đổi sang xe điện.",
             paragraph2: "Cuộc đình công thể hiện sức mạnh của lao động có tổ chức và nêu bật những lo ngại về sự công bằng kinh tế khi các tập đoàn đạt lợi nhuận kỷ lục.",
