@@ -48,7 +48,7 @@ export const eventsData: EventData[] = [
         year: "1959",
         title: "Cách mạng Cuba",
         mainQuote: "Patria o Muerte, Venceremos!",
-        imageUrl: "/podcast/cachmang.jpg",
+        imageUrl: "/podcast/cuba.jpeg",
         description: {
             paragraph1: "Cách mạng Cuba là một cuộc nổi dậy vũ trang do Phong trào 26 tháng 7 của Fidel Castro lãnh đạo chống lại chế độ độc tài của Fulgencio Batista. Cuộc cách mạng bắt đầu vào tháng 7 năm 1953 và tiếp tục cho đến khi Batista bị lật đổ vào ngày 1 tháng 1 năm 1959.",
             paragraph2: "Thắng lợi của cách mạng đã thiết lập nên nhà nước xã hội chủ nghĩa đầu tiên ở Tây bán cầu, có ảnh hưởng sâu sắc đến chính trị khu vực và quan hệ quốc tế trong suốt thời kỳ Chiến tranh Lạnh.",
